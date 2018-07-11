@@ -1,0 +1,19 @@
+{
+    "name": "ewersonfc/linhadigitavel",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ewerson",
+            "email": "ewersonfc@gmail.com"
+        }
+    ],
+    "require": {
+        "smalot/pdfparser": "^0.13.2",
+        "guzzlehttp/guzzle": "~6.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Ewersonfc\\Linhadigitavel\\": "src/"
+        }
+    }
+}
