@@ -10,7 +10,6 @@ namespace Ewersonfc\Linhadigitavel\Services;
 
 use Ewersonfc\Linhadigitavel\Clients\ClientOCR;
 use Ewersonfc\Linhadigitavel\Helpers\Helper;
-use function Functional\false;
 
 /**
  * Class ServicePDFIMG
