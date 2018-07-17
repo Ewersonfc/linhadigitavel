@@ -23,14 +23,20 @@ class ClientOCR extends Client
     private $archiveUrl;
 
     /**
+     * @var string
+     */
+    private $apiKey;
+
+    /**
      * ClientOCR constructor.
      * @param $archiveUrl
      */
-    function __construct($archiveUrl)
+    function __construct($archiveUrl, $apiKey)
     {
         parent::__construct();
 
         $this->archiveUrl = $archiveUrl;
+        $this->apiKey = $apiKey;
     }
 
     /**
@@ -41,7 +47,7 @@ class ClientOCR extends Client
         $request = $this->post(self::BASE_URI, [
             'headers' => [
                 'Content-Type' => 'application/x-www-form-urlencoded',
-                'apikey' => '7a70af647188957'
+                'apikey' => ''
             ],
             'form_params' => [
                 'url' => $this->archiveUrl,
