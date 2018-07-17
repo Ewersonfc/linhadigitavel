@@ -7,7 +7,7 @@ use Ewersonfc\Linhadigitavel\Constants\TypeConstant;
 try {
     $class = new LinhaDigitavel([
         'type' => TypeConstant::PDF,
-        'apiKey' => 'xxx'
+        'apiKey' => 'xxx' 
     ]);
     $data = $class->convertArchive("https://ehtl-financ1.s3.amazonaws.com/uploads/boleto/VSwoQL_BOL%20ANA.pdf");
 
