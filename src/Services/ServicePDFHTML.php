@@ -38,7 +38,7 @@ class ServicePDFHTML extends Parser
                 $match = $this->getNumberLine($string);
 
             if($match)
-                $this->matchesPerPage[] = $match[0];
+                $this->matchesPerPage[] = $match;
         }
 
         return $this->matchesPerPage;

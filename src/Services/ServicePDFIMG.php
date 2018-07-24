@@ -79,7 +79,7 @@ class ServicePDFIMG
             if ($dataAttempt && count($dataAttempt) > 0)
                 $match = $this->getNumberLine($dataAttempt, false);
 
-            $this->matchesPerPage[] = $match[0];
+            $this->matchesPerPage[] = $match;
         }
         return $this->matchesPerPage;
     }

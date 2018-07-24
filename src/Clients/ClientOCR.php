@@ -47,7 +47,7 @@ class ClientOCR extends Client
         $request = $this->post(self::BASE_URI, [
             'headers' => [
                 'Content-Type' => 'application/x-www-form-urlencoded',
-                'apikey' => ''
+                'apikey' => $this->apiKey
             ],
             'form_params' => [
                 'url' => $this->archiveUrl,
@@ -59,6 +59,9 @@ class ClientOCR extends Client
 
         $body = json_decode($request->getBody());
 
+        echo '<pre>';
+        print_r($body);
+        echo '</pre>';
         if($body->ErrorMessage)
             throw \Exception($body->ErrorMessage);
 

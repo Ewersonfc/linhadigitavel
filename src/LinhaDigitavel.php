@@ -82,9 +82,9 @@ class LinhaDigitavel
     /**
      * @param $archivePath
      */
-    private function requestPDFIMG($archivePath)
+    private function requestPDFIMG($archivePath, $apiKey)
     {
-        $data = $this->servicePDFIMG->readPDF($archivePath);
+        $data = $this->servicePDFIMG->readPDF($archivePath, $apiKey);
         if(count($data) > 0 )
             $this->selected['img'] = $data;
     }
