@@ -7,7 +7,7 @@ use Ewersonfc\Linhadigitavel\Constants\TypeConstant;
 try {
     $class = new LinhaDigitavel([
         'type' => TypeConstant::ELIMINATION,
-        'apiKey' => '7a70af647188957'
+        'apiKey' => 'xxxxxxx'
     ]);
     $data = $class->convertArchive("http://teste-portal.e-htl.com.br/uploads/boleto/B6TXBh_somentecompleto.pdf");
 
