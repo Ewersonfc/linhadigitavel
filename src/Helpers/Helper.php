@@ -68,7 +68,7 @@ class Helper
     /**
      * @return array
      */
-    private function bancos()
+    private static function bancos()
     {
         return [
             '654' => '654',
@@ -248,7 +248,7 @@ class Helper
      * @param $linha
      * @return bool|int
      */
-    public function verifyDigit($linha)
+    public static function verifyDigit($linha)
     {
         $factor = substr($linha, 0, 9);
         $factorArray = str_split($factor);
