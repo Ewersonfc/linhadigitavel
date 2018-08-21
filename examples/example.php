@@ -6,10 +6,10 @@ use Ewersonfc\Linhadigitavel\LinhaDigitavel;
 use Ewersonfc\Linhadigitavel\Constants\TypeConstant;
 try {
     $class = new LinhaDigitavel([
-        'type' => TypeConstant::BOTH,
-        'apiKey' => 'xxx'
+        'type' => TypeConstant::ELIMINATION,
+        'apiKey' => '7a70af647188957'
     ]);
-    $data = $class->convertArchive("https://ehtl-financ1.s3.amazonaws.com/uploads/boleto/ZUNWgp_img001.pdf");
+    $data = $class->convertArchive("http://teste-portal.e-htl.com.br/uploads/boleto/B6TXBh_somentecompleto.pdf");
 
     echo '<pre>';
     print_r($data);

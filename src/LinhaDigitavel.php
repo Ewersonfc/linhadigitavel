@@ -14,7 +14,7 @@ use Ewersonfc\Linhadigitavel\Services\ServicePDFIMG;
 /**
  * Class LinhaDigitavel
  */
-class
+class LinhaDigitavel
 {
     /**
      * @var ServicePDFHTML
