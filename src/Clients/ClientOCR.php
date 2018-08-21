@@ -60,7 +60,7 @@ class ClientOCR extends Client
         $body = json_decode($request->getBody());
 
         if($body->ErrorMessage)
-            throw \Exception($body->ErrorMessage);
+            throw new \Exception($body->ErrorMessage);
 
         return $body;
     }
