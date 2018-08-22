@@ -50,7 +50,7 @@ class ServicePDFIMG
         if(count($match) == 0)
             return false;
 
-        return $match;
+        return preg_replace('/[^0-9]/', "", $match);
     }
 
     /**

@@ -29,7 +29,11 @@ class ServicePDFHTML extends Parser
      */
     private function loadDataPDF($archivePath)
     {
-        $pdf = $this->parseFile($archivePath);
+        try {
+            @$pdf = $this->parseFile($archivePath);
+        } catch (\Exception $e) {
+            return [];
+        }
         $pages = $pdf->getPages();
         foreach($pages as $page) {
             $match = false;

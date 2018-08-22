@@ -49,6 +49,7 @@ class Helper
      */
     public static function extractIMG(array $select)
     {
+        $matches = [];
         foreach ($select as $data) {
             if(strlen($data) > 43) {
                 foreach(self::bancos() as $banco) {
