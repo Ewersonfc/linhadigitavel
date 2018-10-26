@@ -16,7 +16,9 @@ use \GuzzleHttp\Client;
 class ClientOCR extends Client
 {
 
-    const BASE_URI = 'https://api.ocr.space/parse/image';
+    const BASE_URI_FREE = 'https://api.ocr.space/parse/image';
+
+    const BASE_URI_PRO = 'https://apipro1.ocr.space/parse/image';
     /**
      * @var string
      */
@@ -28,15 +30,21 @@ class ClientOCR extends Client
     private $apiKey;
 
     /**
+     * @var string
+     */
+    private $baseUri;
+
+    /**
      * ClientOCR constructor.
      * @param $archiveUrl
      */
-    function __construct($archiveUrl, $apiKey)
+    function __construct($archiveUrl, $apiKey, $env)
     {
         parent::__construct();
 
         $this->archiveUrl = $archiveUrl;
         $this->apiKey = $apiKey;
+        $this->baseUri = $env == true? self::BASE_URI_PRO : self::BASE_URI_FREE;
     }
 
     /**
@@ -44,7 +52,7 @@ class ClientOCR extends Client
      */
     public function readImg()
     {
-        $request = $this->post(self::BASE_URI, [
+        $request = $this->post($this->baseUri, [
             'headers' => [
                 'Content-Type' => 'application/x-www-form-urlencoded',
                 'apikey' => $this->apiKey

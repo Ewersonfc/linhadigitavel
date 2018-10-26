@@ -41,6 +41,9 @@ class ServicePDFHTML extends Parser
             return [];
         }
 
+        if(!is_array($pages))
+            return [];
+
         foreach($pages as $page) {
             $match = false;
             $string = $this->prepairString($page->gettext());

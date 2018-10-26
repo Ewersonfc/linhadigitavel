@@ -66,6 +66,10 @@ class LinhaDigitavel
 
         if(!isset($config['apiKey']) && $config['type'] != TypeConstant::PDF)
             throw new \Exception("Para extrair dados de imagem, é necessario assinar o OCR: https://ocr.space/ ");
+
+        if(!isset($config['production']))
+            $this->config['production'] = false;
+
     }
 
     /**
@@ -82,9 +86,9 @@ class LinhaDigitavel
     /**
      * @param $archivePath
      */
-    private function requestPDFIMG($archivePath, $apiKey)
+    private function requestPDFIMG($archivePath, $apiKey, $env)
     {
-        $data = $this->servicePDFIMG->readPDF($archivePath, $apiKey);
+        $data = $this->servicePDFIMG->readPDF($archivePath, $apiKey, $env);
         if(count($data) > 0 )
             $this->selected['img'] = $data;
     }
@@ -101,17 +105,17 @@ class LinhaDigitavel
                 $this->requestPDFHTML($archivePath);
                 break;
             case TypeConstant::IMG:
-                $this->requestPDFIMG($archivePath, $this->config['apiKey']);
+                $this->requestPDFIMG($archivePath, $this->config['apiKey'], $this->config['production']);
                 break;
             case TypeConstant::BOTH:
                 $this->requestPDFHTML($archivePath);
-                $this->requestPDFIMG($archivePath, $this->config['apiKey']);
+                $this->requestPDFIMG($archivePath, $this->config['apiKey'], $this->config['production']);
                 break;
             case TypeConstant::ELIMINATION:
             default:
                 $this->requestPDFHTML($archivePath);
                 if(count($this->selected['html']) == 0)
-                    $this->requestPDFIMG($archivePath, $this->config['apiKey']);
+                    $this->requestPDFIMG($archivePath, $this->config['apiKey'], $this->config['production']);
                 break;
         }
         return $this->selected;
