@@ -36,7 +36,7 @@ class ServicePDFHTML extends Parser
         }
 
         try {
-            $pages = print_r($pdf->getText());
+            $pages = $pdf->getText();
         } catch (\Exception $e) {
             return [];
         }

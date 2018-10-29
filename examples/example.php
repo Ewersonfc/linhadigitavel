@@ -10,7 +10,7 @@ try {
         'apiKey' => 'PDMXB4043888A',
         'production' => true
     ]);
-    $data = $class->convertArchive("http://teste-portal.e-htl.com.br/uploads/boleto/B6TXBh_somentecompleto.pdf");
+    $data = $class->convertArchive("https://ehtl-financ1.s3.amazonaws.com/uploads/boleto/Vbt7Kw_BOLETO%20REF%20NF%2010130%20E-HTL.pdf");
 
     echo '<pre>';
     print_r($data);
