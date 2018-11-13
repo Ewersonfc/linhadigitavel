@@ -8,9 +8,9 @@ try {
     $class = new LinhaDigitavel([
         'type' => TypeConstant::ELIMINATION,
         'apiKey' => 'xx',
-        'production' => true
+        'production' => false
     ]);
-    $data = $class->convertArchive("https://ehtl-financ1.s3.amazonaws.com/uploads/boleto/tSo0gY_PROCESSO%209245.pdf");
+    $data = $class->convertArchive("");
 
     echo '<pre>';
     print_r($data);
