@@ -267,6 +267,11 @@ class Helper
             return $item;
         }, $result);
 
-        return (10-(array_sum($newResult) % 10));
+        $dig = (10-(array_sum($newResult) % 10));
+
+        if($dig==10) { 
+            $dig=0; 
+        }
+        return $dig;
     }
 }

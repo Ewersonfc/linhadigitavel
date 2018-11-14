@@ -18,7 +18,7 @@ class ClientOCR extends Client
 
     const BASE_URI_FREE = 'https://api.ocr.space/parse/image';
 
-    const BASE_URI_PRO = 'https://apipro1.ocr.space/parse/image';
+    const BASE_URI_PRO = 'https://apipro2.ocr.space/parse/image';
     /**
      * @var string
      */
