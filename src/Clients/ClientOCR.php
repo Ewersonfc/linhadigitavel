@@ -59,7 +59,6 @@ class ClientOCR extends Client
             ],
             'form_params' => [
                 'url' => $this->archiveUrl,
-                'language' => 'por',
                 'scale' => 'True'
             ]
         ]);
