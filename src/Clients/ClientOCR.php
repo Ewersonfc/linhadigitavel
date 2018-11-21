@@ -60,8 +60,7 @@ class ClientOCR extends Client
             'form_params' => [
                 'url' => $this->archiveUrl,
                 'language' => 'por',
-                'isOverlayRequired' => 'True',
-                'isCreateSearchablePdf' => 'True'
+                'scale' => 'True'
             ]
         ]);
 
