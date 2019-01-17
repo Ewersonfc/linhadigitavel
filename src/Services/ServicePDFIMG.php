@@ -60,27 +60,34 @@ class ServicePDFIMG
      */
     final public function readPDF($archiveUrl, $apiKey, $env)
     {
-        $client = new ClientOCR($archiveUrl, $apiKey, $env);
-        $results = $client->readImg();
-        foreach ($results->ParsedResults as $result) {
-            $result = (object) $result;
-            $match = [];
-            $data = false;
-            $dataAttempt = false;
-            if ($result->ParsedText)
-                $data = $this->prepairString($result->ParsedText);
+        try
+        {
+            $client = new ClientOCR($archiveUrl, $apiKey, $env);
+            $results = $client->readImg();
+            foreach ($results->ParsedResults as $result) {
+                $result = (object) $result;
+                $match = [];
+                $data = false;
+                $dataAttempt = false;
+                if ($result->ParsedText)
+                    $data = $this->prepairString($result->ParsedText);
 
-            if (count($data) > 0)
-                $match = $this->getNumberLine($data);
+                if (count($data) > 0)
+                    $match = $this->getNumberLine($data);
 
-            if((!$match && $result->ParsedText) || (count($match) == 0 && $result->ParsedText))
-                $dataAttempt = $this->prepairString($result->ParsedText, false);
+                if((!$match && $result->ParsedText) || (count($match) == 0 && $result->ParsedText))
+                    $dataAttempt = $this->prepairString($result->ParsedText, false);
 
-            if ($dataAttempt && count($dataAttempt) > 0)
-                $match = $this->getNumberLine($dataAttempt, false);
+                if ($dataAttempt && count($dataAttempt) > 0)
+                    $match = $this->getNumberLine($dataAttempt, false);
 
-            $this->matchesPerPage[] = $match;
+                $this->matchesPerPage[] = $match;
+            }
+            return $this->matchesPerPage;
         }
-        return $this->matchesPerPage;
+        catch(Exception $e)
+        {
+            return $this->matchesPerPage;
+        }
     }
 }

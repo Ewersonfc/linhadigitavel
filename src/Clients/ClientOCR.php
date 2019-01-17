@@ -52,22 +52,29 @@ class ClientOCR extends Client
      */
     public function readImg()
     {
-        $request = $this->post($this->baseUri, [
-            'headers' => [
-                'Content-Type' => 'application/x-www-form-urlencoded',
-                'apikey' => $this->apiKey
-            ],
-            'form_params' => [
-                'url' => $this->archiveUrl,
-                'scale' => 'True'
-            ]
-        ]);
+        try
+        {
+            $request = $this->post($this->baseUri, [
+                'headers' => [
+                    'Content-Type' => 'application/x-www-form-urlencoded',
+                    'apikey' => $this->apiKey
+                ],
+                'form_params' => [
+                    'url' => $this->archiveUrl,
+                    'scale' => 'True'
+                ]
+            ]);
 
-        $body = json_decode($request->getBody());
+            $body = json_decode($request->getBody());
 
-        if(isset($body->ErrorMessage))
-            throw new \Exception($body->ErrorMessage[0]);
+            if(isset($body->ErrorMessage))
+                throw new \Exception($body->ErrorMessage[0]);
 
-        return $body;
+            return $body;
+        }
+        catch(\Exception $e)
+        {
+            return [];
+        }
     }
 }
