@@ -84,29 +84,36 @@ class ClientOCR extends Client
      */
     public function readImg()
     {
-        $after = time();
-        $request = $this->post($this->baseUri, [
-            'headers' => [
-                'Content-Type' => 'application/x-www-form-urlencoded',
-                'apikey' => $this->apiKey
-            ],
-            'form_params' => [
-                'url' => $this->archiveUrl,
-                'scale' => 'True'
-            ]
-        ]);
-        $before = time();
+        try
+        {
+            $after = time();
+            $request = $this->post($this->baseUri, [
+                'headers' => [
+                    'Content-Type' => 'application/x-www-form-urlencoded',
+                    'apikey' => $this->apiKey
+                ],
+                'form_params' => [
+                    'url' => $this->archiveUrl,
+                    'scale' => 'True'
+                ]
+            ]);
+            $before = time();
 
-        $body = json_decode($request->getBody());
+            $body = json_decode($request->getBody());
 
-        $timeProcess = $before - $after;
+            $timeProcess = $before - $after;
 
-        $this->savePid($timeProcess);
+            $this->savePid($timeProcess);
 
-        if(isset($body->ErrorMessage))
-            throw new \Exception($body->ErrorMessage[0]);
+            if(isset($body->ErrorMessage))
+                throw new \Exception($body->ErrorMessage[0]);
 
-        return $body;
+            return $body;
+        }
+        catch(\Exception $e)
+        {
+            return [];
+        }
     }
 
     public function savePid($timeProcess) {
