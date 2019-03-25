@@ -10,6 +10,7 @@ namespace Ewersonfc\Linhadigitavel\Services;
 
 use Ewersonfc\Linhadigitavel\Helpers\Helper;
 use \Smalot\PdfParser\Parser;
+use Spatie\PdfToText\Pdf;
 
 /**
  * Class ServicePDFHTML
@@ -30,23 +31,21 @@ class ServicePDFHTML extends Parser
     private function loadDataPDF($archivePath)
     {
         try {
-            @$pdf = $this->parseFile($archivePath);
+            $temp = tempnam(sys_get_temp_dir(), 'TMP_FILE_IN_');
+            $file = file_get_contents($archivePath);
+            file_put_contents($temp, $file);
+            $pages = [Pdf::getText($temp)];
         } catch (\Exception $e) {
             return [];
         }
 
-        try {
-            $pages = $pdf->getPages();
-        } catch (\Exception $e) {
-            return [];
-        }
 
         if(!is_array($pages))
             return [];
 
         foreach($pages as $page) {
             $match = false;
-            $string = $this->prepairString($page->gettext());
+            $string = $this->prepairString($page);
             if($string)
                 $match = $this->getNumberLine($string);
 
