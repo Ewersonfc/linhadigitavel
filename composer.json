@@ -9,7 +9,8 @@
     ],
     "require": {
         "smalot/pdfparser": "^0.13.2",
-        "guzzlehttp/guzzle": "~6.0"
+        "guzzlehttp/guzzle": "~6.0",
+        "spatie/pdf-to-text": "^1.1"
     },
     "autoload": {
         "psr-4": {

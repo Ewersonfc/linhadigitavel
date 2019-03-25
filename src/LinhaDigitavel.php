@@ -10,6 +10,7 @@ namespace Ewersonfc\Linhadigitavel;
 use Ewersonfc\Linhadigitavel\Constants\TypeConstant;
 use Ewersonfc\Linhadigitavel\Services\ServicePDFHTML;
 use Ewersonfc\Linhadigitavel\Services\ServicePDFIMG;
+use Spatie\PdfToText\Pdf;
 
 /**
  * Class LinhaDigitavel
@@ -78,8 +79,9 @@ class LinhaDigitavel
      */
     private function requestPDFHTML($archivePath)
     {
-        $data = $this->servicePDFHTML->readPdf($archivePath);
-        if(count($data) > 0 )
+         $data = $this->servicePDFHTML->readPdf($archivePath);
+
+        if(!empty($data))
             $this->selected['html'] = $data;
     }
 
