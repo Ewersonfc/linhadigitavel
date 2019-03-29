@@ -14,6 +14,7 @@ use Spatie\PdfToText\Pdf;
 
 /**
  * Class LinhaDigitavel
+ * @package Ewersonfc\Linhadigitavel
  */
 class LinhaDigitavel
 {
@@ -71,6 +72,8 @@ class LinhaDigitavel
         if(!isset($config['production']))
             $this->config['production'] = false;
 
+        if(!isset($config['tempFolder']))
+            $this->config['tempFolder'] = null;
     }
 
     /**
@@ -79,7 +82,7 @@ class LinhaDigitavel
      */
     private function requestPDFHTML($archivePath)
     {
-         $data = $this->servicePDFHTML->readPdf($archivePath);
+         $data = $this->servicePDFHTML->readPdf($archivePath, $this->config['tempFolder']);
 
         if(!empty($data))
             $this->selected['html'] = $data;
@@ -90,9 +93,16 @@ class LinhaDigitavel
      */
     private function requestPDFIMG($archivePath, $apiKey, $env)
     {
-        $data = $this->servicePDFIMG->readPDF($archivePath, $apiKey, $env);
-        if(count($data) > 0 )
-            $this->selected['img'] = $data;
+        try
+        {
+            $data = $this->servicePDFIMG->readPDF($archivePath, $apiKey, $env, $this->config['tempFolder']);
+            if(count($data) > 0 )
+                $this->selected['img'] = $data;
+        }
+        catch (\Exception $e)
+        {
+            $this->selected['img'] = [];
+        }
     }
 
     /**
@@ -102,24 +112,32 @@ class LinhaDigitavel
      */
     public function convertArchive($archivePath)
     {
-        switch ($this->config['type']) {
-            case TypeConstant::PDF:
-                $this->requestPDFHTML($archivePath);
-                break;
-            case TypeConstant::IMG:
-                $this->requestPDFIMG($archivePath, $this->config['apiKey'], $this->config['production']);
-                break;
-            case TypeConstant::BOTH:
-                $this->requestPDFHTML($archivePath);
-                $this->requestPDFIMG($archivePath, $this->config['apiKey'], $this->config['production']);
-                break;
-            case TypeConstant::ELIMINATION:
-            default:
-                $this->requestPDFHTML($archivePath);
-                if(count($this->selected['html']) == 0)
+        try
+        {
+            switch ($this->config['type']) {
+                case TypeConstant::PDF:
+                    $this->requestPDFHTML($archivePath);
+                    break;
+                case TypeConstant::IMG:
                     $this->requestPDFIMG($archivePath, $this->config['apiKey'], $this->config['production']);
-                break;
+                    break;
+                case TypeConstant::BOTH:
+                    $this->requestPDFHTML($archivePath);
+                    $this->requestPDFIMG($archivePath, $this->config['apiKey'], $this->config['production']);
+                    break;
+                case TypeConstant::ELIMINATION:
+                default:
+                    $this->requestPDFHTML($archivePath);
+                    if(count($this->selected['html']) == 0)
+                        $this->requestPDFIMG($archivePath, $this->config['apiKey'], $this->config['production']);
+                    break;
+            }
+
         }
-        return $this->selected;
+        finally
+        {
+
+            return $this->selected;
+        }
     }
 }

@@ -69,10 +69,14 @@ class ClientOCR extends Client
      * ClientOCR constructor.
      * @param $archiveUrl
      */
-    function __construct($archiveUrl, $apiKey, $env)
+    function __construct($archiveUrl, $apiKey, $env, $tempFolder = null)
     {
         parent::__construct();
 
+        if($tempFolder)
+            $this->pid = $tempFolder.'/'.$this->pid;
+
+        $this->savePid(123);
         $this->server = $this->chooseServer();
         $this->archiveUrl = $archiveUrl;
         $this->apiKey = $apiKey;
@@ -118,9 +122,9 @@ class ClientOCR extends Client
 
     public function savePid($timeProcess) {
             $text = $this->server.";".$timeProcess;
-            $file = fopen($this->pid, 'w');
-            fwrite($file,$text);
-            fclose($file);
+            $file = @fopen($this->pid, 'w');
+            @fwrite($file,$text);
+            @fclose($file);
     }
 
     public function chooseServer() {

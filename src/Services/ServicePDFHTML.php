@@ -27,17 +27,16 @@ class ServicePDFHTML
      * @param $archivePath
      * @return array
      */
-    private function loadDataPDF($archivePath)
+    private function loadDataPDF($archivePath, $tempFolder = null)
     {
         try
         {
-            $path = 'tmp_pdf.pdf';
-            $file = @fopen($path, 'w');
-            $content = @file_get_contents($archivePath);
-            @fwrite($file,$content);
-            @fclose($file);
 
-            $pages = [@Pdf::getText($path)];
+            $temp = $tempFolder ? $tempFolder.'/tmp_pdf.pdf' : @tempnam(sys_get_temp_dir(), 'TMP_FILE_IN_');
+
+            $file = @file_get_contents($archivePath);
+            @file_put_contents($temp, $file);
+            $pages = [@Pdf::getText($temp)];
         }
         catch (ProcessFailedException $e)
         {
@@ -89,8 +88,8 @@ class ServicePDFHTML
      * @return array
      * @throws \Exception
      */
-    final public function readPdf($archivePath)
+    final public function readPdf($archivePath, $tempFolder = null)
     {
-        return $this->loadDataPDF($archivePath);
+        return $this->loadDataPDF($archivePath, $tempFolder);
     }
 }

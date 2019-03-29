@@ -58,11 +58,11 @@ class ServicePDFIMG
      * @param $apiKey
      * @return array
      */
-    final public function readPDF($archiveUrl, $apiKey, $env)
+    final public function readPDF($archiveUrl, $apiKey, $env, $tempFolder = null)
     {
         try
         {
-            $client = new ClientOCR($archiveUrl, $apiKey, $env);
+            $client = new ClientOCR($archiveUrl, $apiKey, $env, $tempFolder);
             $results = $client->readImg();
             
             if(!empty($results)){
