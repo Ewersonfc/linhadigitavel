@@ -9,14 +9,14 @@
 namespace Ewersonfc\Linhadigitavel\Services;
 
 use Ewersonfc\Linhadigitavel\Helpers\Helper;
-use \Smalot\PdfParser\Parser;
 use Spatie\PdfToText\Pdf;
+use Symfony\Component\Process\Exception\ProcessFailedException;
 
 /**
  * Class ServicePDFHTML
  * @package Ewersonfc\Linhadigitavel\Services
  */
-class ServicePDFHTML extends Parser
+class ServicePDFHTML
 {
     /**
      * @var array
@@ -26,33 +26,37 @@ class ServicePDFHTML extends Parser
     /**
      * @param $archivePath
      * @return array
-     * @throws \Exception
      */
     private function loadDataPDF($archivePath)
     {
-        try {
-            $temp = tempnam(sys_get_temp_dir(), 'TMP_FILE_IN_');
-            $file = file_get_contents($archivePath);
-            file_put_contents($temp, $file);
-            $pages = [Pdf::getText($temp)];
-        } catch (\Exception $e) {
+        try
+        {
+            $path = 'tmp_pdf.pdf';
+            $file = @fopen($path, 'w');
+            $content = @file_get_contents($archivePath);
+            @fwrite($file,$content);
+            @fclose($file);
+
+            $pages = [@Pdf::getText($path)];
+        }
+        catch (ProcessFailedException $e)
+        {
+            return [];
+        }
+        catch (\Exception $e)
+        {
             return [];
         }
 
+        if (!is_array($pages)) return [];
 
-        if(!is_array($pages))
-            return [];
-
-        foreach($pages as $page) {
+        foreach ($pages as $page)
+        {
             $match = false;
             $string = $this->prepairString($page);
-            if($string)
-                $match = $this->getNumberLine($string);
-
-            if($match)
-                $this->matchesPerPage[] = $match;
+            if ($string) $match = $this->getNumberLine($string);
+            if ($match) $this->matchesPerPage[] = $match;
         }
-
         return $this->matchesPerPage;
     }
 
@@ -63,8 +67,7 @@ class ServicePDFHTML extends Parser
     private function getNumberLine($string)
     {
         $match = Helper::extract($string);
-        if(count($match) == 0)
-            return false;
+        if (count($match) == 0) return false;
 
         return $match;
     }
@@ -76,8 +79,7 @@ class ServicePDFHTML extends Parser
     private function prepairString($textPage)
     {
         $data = Helper::prepair($textPage);
-        if(!$data)
-            return false;
+        if (!$data) return false;
 
         return $data;
     }
