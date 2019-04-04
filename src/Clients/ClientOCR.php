@@ -76,7 +76,6 @@ class ClientOCR extends Client
         if($tempFolder)
             $this->pid = $tempFolder.'/'.$this->pid;
 
-        $this->savePid(123);
         $this->server = $this->chooseServer();
         $this->archiveUrl = $archiveUrl;
         $this->apiKey = $apiKey;
