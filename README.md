@@ -1,5 +1,5 @@
 # linhadigitavel
-Esta biblioteca tem a finalidade de extrair a Linha Digitável de boletos **PDF 1.4 e 1.7** e Imagens. Em algumas situações especificar a mesma usa auxilio da API do OCR SPACE (https://ocr.space/ocrapi), fazendo assim necessária a Key da API para maior taxa de sucesso na Extração. 
+Esta biblioteca tem a finalidade de extrair a Linha Digitável de boletos **PDF 1.4 e 1.7** e Imagens. Em algumas situações especificas a mesma usa auxílio da API do OCR SPACE (https://ocr.space/ocrapi), fazendo assim necessária a Key da API para maior taxa de sucesso na Extração. 
     
  ## Instanciando a Classe
     $class = new LinhaDigitavel([
@@ -9,19 +9,19 @@ Esta biblioteca tem a finalidade de extrair a Linha Digitável de boletos **PDF 
         'tempFolder' => './PATH_TO_TEMP_FOLDER' // Optional
     ]);
     
- ## Parametros disponiveis
+ ## Parâmetros disponiveis
  ### type (Required) :
-  Esse paramêtro é utilizado para definir a forma que será realizado o *Parse* do arquivo, sendo as opções disponiveis
-  - **'pdf'** : Realiza o parse diretamente na biblioteca, funcionando muito bem e rapido para arquivos PDF gerados através da Web ou programas
-  - **'img'** : É um pouco mais lento que a opção anterior por utilizar a *API* do OCR SPACE, mas em alguns casos, onde serão utilizadas imagens ou PDF's contendo boletos scanneados tem uma taxa maior de sucesso
-  - **'elimination'** : Tenta realizar o parse com o método *'pdf'* e **caso não consiga** tenta utilizar o método *'img'*
-  - **'both'** : Realiza a extração com ambos métodos
+  Esse parâmetro é utilizado para definir a forma que será realizado o *Parse* do arquivo, sendo as opções disponiveis:
+  - **'pdf'** : Realiza o parse diretamente na biblioteca, funcionando muito bem e rapido para arquivos PDF gerados através da Web ou programas.
+  - **'img'** : É um pouco mais lento que a opção anterior por utilizar a *API* do OCR SPACE, mas em alguns casos, onde serão utilizadas imagens ou PDF's contendo boletos scanneados tem uma taxa maior de sucesso.
+  - **'elimination'** : Tenta realizar o parse com o método *'pdf'* e **caso não consiga**, tenta utilizar o método *'img'*.
+  - **'both'** : Realiza a extração com ambos métodos.
   
  ### *apiKey* (Required) :
  Chave de acesso da API do OCR SPACE (https://ocr.space/ocrapi) utilizada para o parser das Imagens
  
  ### *production* (Optional) :
- Este paramêtro é utilizado para controlar o uso da API Key
+ Este parâmetro é utilizado para controlar o uso da API Key
  
  ### *tempFolder* (Optional) :
  Durante o processo a biblioteca cria alguns arquivos temporários para controlar qual servidor da API será utilizado, esse parametro serve para controlarmos onde esses arquivos temporarios serão salvos.
