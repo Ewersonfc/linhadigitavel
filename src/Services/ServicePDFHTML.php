@@ -54,7 +54,7 @@ class ServicePDFHTML
             $match = false;
             $string = $this->prepairString($page);
             if ($string) $match = $this->getNumberLine($string);
-            if ($match) $this->matchesPerPage[] = $match;
+            if ($match) $this->matchesPerPage[] = Helper::onlyNumbers($match);
         }
         return $this->matchesPerPage;
     }

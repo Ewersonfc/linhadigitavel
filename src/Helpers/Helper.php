@@ -33,6 +33,13 @@ class Helper
         return explode('-', $data);
     }
 
+    public static function onlyNumbers($text)
+    {
+        $data = preg_replace("/[^0-9]/", "", $text);
+        return $data;
+    }
+
+
     /**
      * @param $string
      * @return mixed
