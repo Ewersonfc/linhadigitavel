@@ -58,11 +58,11 @@ class ServicePDFIMG
      * @param $apiKey
      * @return array
      */
-    final public function readPDF($archiveUrl, $apiKey, $env)
+    final public function readPDF($archiveUrl, $apiKey, $env, $tempFolder = null)
     {
         try
         {
-            $client = new ClientOCR($archiveUrl, $apiKey, $env);
+            $client = new ClientOCR($archiveUrl, $apiKey, $env, $tempFolder);
             $results = $client->readImg();
             
             if(!empty($results)){
@@ -83,7 +83,8 @@ class ServicePDFIMG
                     if ($dataAttempt && count($dataAttempt) > 0)
                         $match = $this->getNumberLine($dataAttempt, false);
 
-                    $this->matchesPerPage[] = $match;
+                    if($match)
+                        $this->matchesPerPage[] = $match;
                 }
             }
             return $this->matchesPerPage;

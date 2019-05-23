@@ -33,6 +33,13 @@ class Helper
         return explode('-', $data);
     }
 
+    public static function onlyNumbers($text)
+    {
+        $data = preg_replace("/[^0-9]/", "", $text);
+        return $data;
+    }
+
+
     /**
      * @param $string
      * @return mixed
@@ -179,7 +186,7 @@ class Helper
             '638' => '638',
             'M24' => 'M24',
             '747' => '747',
-            '088' - 4 => '088-4',
+            '088-4' => '088-4',
             '356' => '356',
             '633' => '633',
             '741' => '741',

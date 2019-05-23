@@ -69,9 +69,12 @@ class ClientOCR extends Client
      * ClientOCR constructor.
      * @param $archiveUrl
      */
-    function __construct($archiveUrl, $apiKey, $env)
+    function __construct($archiveUrl, $apiKey, $env, $tempFolder = null)
     {
         parent::__construct();
+
+        if($tempFolder)
+            $this->pid = $tempFolder.'/'.$this->pid;
 
         $this->server = $this->chooseServer();
         $this->archiveUrl = $archiveUrl;
@@ -84,9 +87,10 @@ class ClientOCR extends Client
      */
     public function readImg()
     {
+
+            $after = time();
         try
         {
-            $after = time();
             $request = $this->post($this->baseUri, [
                 'headers' => [
                     'Content-Type' => 'application/x-www-form-urlencoded',
@@ -97,30 +101,31 @@ class ClientOCR extends Client
                     'scale' => 'True'
                 ]
             ]);
-            $before = time();
-
             $body = json_decode($request->getBody());
+
+            if(isset($body->ErrorMessage))
+                throw new \Exception($body->ErrorMessage[0]);
+        }
+        catch(\Exception $e)
+        {
+            $body = [];
+        }
+            $before = time();
 
             $timeProcess = $before - $after;
 
             $this->savePid($timeProcess);
 
-            if(isset($body->ErrorMessage))
-                throw new \Exception($body->ErrorMessage[0]);
 
             return $body;
-        }
-        catch(\Exception $e)
-        {
-            return [];
-        }
+
     }
 
     public function savePid($timeProcess) {
             $text = $this->server.";".$timeProcess;
-            $file = fopen($this->pid, 'w');
-            fwrite($file,$text);
-            fclose($file);
+            $file = @fopen($this->pid, 'w');
+            @fwrite($file,$text);
+            @fclose($file);
     }
 
     public function chooseServer() {

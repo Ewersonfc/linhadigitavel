@@ -9,14 +9,14 @@
 namespace Ewersonfc\Linhadigitavel\Services;
 
 use Ewersonfc\Linhadigitavel\Helpers\Helper;
-use \Smalot\PdfParser\Parser;
 use Spatie\PdfToText\Pdf;
+use Symfony\Component\Process\Exception\ProcessFailedException;
 
 /**
  * Class ServicePDFHTML
  * @package Ewersonfc\Linhadigitavel\Services
  */
-class ServicePDFHTML extends Parser
+class ServicePDFHTML
 {
     /**
      * @var array
@@ -26,33 +26,36 @@ class ServicePDFHTML extends Parser
     /**
      * @param $archivePath
      * @return array
-     * @throws \Exception
      */
-    private function loadDataPDF($archivePath)
+    private function loadDataPDF($archivePath, $tempFolder = null)
     {
-        try {
-            $temp = tempnam(sys_get_temp_dir(), 'TMP_FILE_IN_');
-            $file = file_get_contents($archivePath);
-            file_put_contents($temp, $file);
-            $pages = [Pdf::getText($temp)];
-        } catch (\Exception $e) {
+        try
+        {
+
+            $temp = $tempFolder ? $tempFolder.'/tmp_pdf.pdf' : @tempnam(sys_get_temp_dir(), 'TMP_FILE_IN_');
+
+            $file = @file_get_contents($archivePath);
+            @file_put_contents($temp, $file);
+            $pages = [@Pdf::getText($temp)];
+        }
+        catch (ProcessFailedException $e)
+        {
+            return [];
+        }
+        catch (\Exception $e)
+        {
             return [];
         }
 
+        if (!is_array($pages)) return [];
 
-        if(!is_array($pages))
-            return [];
-
-        foreach($pages as $page) {
+        foreach ($pages as $page)
+        {
             $match = false;
             $string = $this->prepairString($page);
-            if($string)
-                $match = $this->getNumberLine($string);
-
-            if($match)
-                $this->matchesPerPage[] = $match;
+            if ($string) $match = $this->getNumberLine($string);
+            if ($match) $this->matchesPerPage[] = Helper::onlyNumbers($match);
         }
-
         return $this->matchesPerPage;
     }
 
@@ -63,8 +66,7 @@ class ServicePDFHTML extends Parser
     private function getNumberLine($string)
     {
         $match = Helper::extract($string);
-        if(count($match) == 0)
-            return false;
+        if (count($match) == 0) return false;
 
         return $match;
     }
@@ -76,8 +78,7 @@ class ServicePDFHTML extends Parser
     private function prepairString($textPage)
     {
         $data = Helper::prepair($textPage);
-        if(!$data)
-            return false;
+        if (!$data) return false;
 
         return $data;
     }
@@ -87,8 +88,8 @@ class ServicePDFHTML extends Parser
      * @return array
      * @throws \Exception
      */
-    final public function readPdf($archivePath)
+    final public function readPdf($archivePath, $tempFolder = null)
     {
-        return $this->loadDataPDF($archivePath);
+        return $this->loadDataPDF($archivePath, $tempFolder);
     }
 }
