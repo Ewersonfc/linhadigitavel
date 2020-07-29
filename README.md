@@ -1,4 +1,10 @@
 # linhadigitavel
+[![Latest Stable Version](https://poser.pugx.org/ewersonfc/linhadigitavel/v)](//packagist.org/packages/ewersonfc/linhadigitavel)
+[![Latest Unstable Version](https://poser.pugx.org/ewersonfc/linhadigitavel/v/unstable)](//packagist.org/packages/ewersonfc/linhadigitavel)
+[![Total Downloads](https://poser.pugx.org/ewersonfc/linhadigitavel/downloads)](//packagist.org/packages/ewersonfc/linhadigitavel)
+[![License](https://poser.pugx.org/ewersonfc/linhadigitavel/license)](//packagist.org/packages/ewersonfc/linhadigitavel)
+
+ 
 Esta biblioteca tem a finalidade de extrair a Linha Digitável de boletos **PDF 1.4 e 1.7** e Imagens. Em algumas situações especificas a mesma usa auxílio da API do OCR SPACE (https://ocr.space/ocrapi), fazendo assim necessária a Key da API para maior taxa de sucesso na Extração. 
     
  ## Instanciando a Classe
